@@ -173,29 +173,31 @@ float3 encode_srgb(const float3 input) {
 
 float4 encode_output_opaque(const float4 color, const float gamma)
 {
-    if (abs(gamma - 1.0) < 0.0001) {
+    float g = linear_encode_enabled ? 1.0 : gamma;
+    if (abs(g - 1.0) < 0.0001) {
         return float4(pow(color.rgb, float3(1.0, 1.0, 1.0)), 1);
     } else if (srgb_encode_enabled) {
         return float4(encode_srgb(color.rgb), 1);
     } else if (rec709_encode_enabled) {
         return float4(encode_rec709(color.rgb), 1);
     } else {
-        float3 g = 1.0 / float3(gamma, gamma, gamma);
-        return float4(pow(color.rgb, g), 1);
+        float3 gg = 1.0 / float3(g, g, g);
+        return float4(pow(color.rgb, gg), 1);
     }
 }
 
 float4 encode_output(const float4 color, const float gamma)
 {
-    if (abs(gamma - 1.0) < 0.0001) {
+    float g = linear_encode_enabled ? 1.0 : gamma;
+    if (abs(g - 1.0) < 0.0001) {
         return float4(pow(color.rgb, float3(1.0, 1.0, 1.0)), color.a);
     } else if (srgb_encode_enabled) {
         return float4(encode_srgb(color.rgb), color.a);
     } else if (rec709_encode_enabled) {
         return float4(encode_rec709(color.rgb), color.a);
     } else {
-        float3 g = 1.0 / float3(gamma, gamma, gamma);
-        return float4(pow(color.rgb, g), color.a);
+        float3 gg = 1.0 / float3(g, g, g);
+        return float4(pow(color.rgb, gg), color.a);
     }
 }
 
@@ -213,29 +215,31 @@ float3 decode_rec709(const float3 input) {
 
 float4 decode_input_opaque(const float4 color, const float gamma)
 {
-    if (abs(gamma - 1.0) < 0.0001) {
+    float g = linear_decode_enabled ? 1.0 : gamma;
+    if (abs(g - 1.0) < 0.0001) {
         return float4(pow(color.rgb, float3(1.0, 1.0, 1.0)), 1);
     } else if (srgb_decode_enabled) {
         return float4(decode_srgb(color.rgb), 1);
     } else if (rec709_decode_enabled) {
         return float4(decode_rec709(color.rgb), 1);
     } else {
-        float3 g = float3(gamma, gamma, gamma);
-        return float4(pow(color.rgb, g), 1);
+        float3 gg = float3(g, g, g);
+        return float4(pow(color.rgb, gg), 1);
     }
 }
 
 float4 decode_input(const float4 color, const float gamma)
 {
-    if (abs(gamma - 1.0) < 0.0001) {
+    float g = linear_decode_enabled ? 1.0 : gamma;
+    if (abs(g - 1.0) < 0.0001) {
         return float4(pow(color.rgb, float3(1.0, 1.0, 1.0)), color.a);
     } else if (srgb_decode_enabled) {
         return float4(decode_srgb(color.rgb), color.a);
     } else if (rec709_decode_enabled) {
         return float4(decode_rec709(color.rgb), color.a);
     } else {
-        float3 g = float3(gamma, gamma, gamma);
-        return float4(pow(color.rgb, g), color.a);
+        float3 gg = float3(g, g, g);
+        return float4(pow(color.rgb, gg), color.a);
     }
 }
 

@@ -569,6 +569,7 @@ uniform float crt_gamma <
 > = crt_gamma_static;
 
 
+
 uniform bool srgb_decode_enabled <
     ui_label = "sRGB Decoding";
     ui_tooltip = "Toggle sRGB decoding";
@@ -583,6 +584,7 @@ uniform bool srgb_encode_enabled <
     ui_category = "Colors and Effects";
 > = false;
 
+
 uniform bool rec709_decode_enabled <
     ui_label = "Rec.709 Decoding";
     ui_tooltip = "Toggle Rec.709 decoding";
@@ -593,6 +595,21 @@ uniform bool rec709_decode_enabled <
 uniform bool rec709_encode_enabled <
     ui_label = "Rec.709 Encoding";
     ui_tooltip = "Toggle Rec.709 encoding";
+    ui_type = "checkbox";
+    ui_category = "Colors and Effects";
+> = false;
+
+
+uniform bool linear_decode_enabled <
+    ui_label = "Linear Decoding";
+    ui_tooltip = "Force gamma 1.0 for decode";
+    ui_type = "checkbox";
+    ui_category = "Colors and Effects";
+> = false;
+
+uniform bool linear_encode_enabled <
+    ui_label = "Linear Encoding";
+    ui_tooltip = "Force gamma 1.0 for encode";
     ui_type = "checkbox";
     ui_category = "Colors and Effects";
 > = false;
