@@ -9,7 +9,7 @@ From mid-2000s onward, most games are sRGB encoded.
 
 If you have selected a decoding standard then you should usually also encode to that standard, otherwise use whichever standard is closer to your physical monitor characteristics and settings.
 
-If you are playing a game that applies its own gamma ramp, you should set that to a neutral value. For example in Goldsrc games, the in-game gamma variable should be set to 1.0.
+If you are playing a game that applies its own gamma ramp, you should set that to a neutral value if possible.
 
 #### CREDIT
 The vast majority of the code here is taken from the current libretro shader repositories, so the most of the credit goes to those authors.
@@ -36,5 +36,6 @@ The shader's UI includes tips and descriptions for setting it up well. Prioritiz
 
 
 You can go to [the wiki](https://github.com/akgunter/crt-royale-reshade/wiki) for more detailed info on the different options.
+
 
 
