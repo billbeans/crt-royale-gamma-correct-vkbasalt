@@ -1,7 +1,5 @@
 #ifndef _GAMMA_MANAGEMENT_H
 #define _GAMMA_MANAGEMENT_H
-
-
 /////////////////////////////////  MIT LICENSE  ////////////////////////////////
 
 //  Copyright (C) 2014 TroggleMonkey
@@ -160,29 +158,87 @@
 
 //////////////////////  COLOR ENCODING/DECODING FUNCTIONS  /////////////////////
 
-float4 encode_output_opaque(const float4 color, const float gamma)
-{
-    static const float3 g = 1.0 / float3(gamma, gamma, gamma);
-    return float4(pow(color.rgb, g), 1);
+
+float3 encode_rec709(const float3 input) {
+    float3 low = 4.5 * input;
+    float3 high = 1.099 * pow(input, float3(0.45, 0.45, 0.45)) - 0.099;
+    return lerp(low, high, step(float3(0.018, 0.018, 0.018), input));
 }
 
-float4 decode_input_opaque(const float4 color, const float gamma)
+float3 encode_srgb(const float3 input) {
+    float3 low = input * 12.92;
+    float3 high = 1.055 * pow(input, float3(1.0 / 2.4, 1.0 / 2.4, 1.0 / 2.4)) - 0.055;
+    return lerp(low, high, step(float3(0.0031308, 0.0031308, 0.0031308), input));
+}
+
+float4 encode_output_opaque(const float4 color, const float gamma)
 {
-    static const float3 g = float3(gamma, gamma, gamma);
-    return float4(pow(color.rgb, g), 1);
+    if (abs(gamma - 1.0) < 0.0001) {
+        return float4(pow(color.rgb, float3(1.0, 1.0, 1.0)), 1);
+    } else if (srgb_encode_enabled) {
+        return float4(encode_srgb(color.rgb), 1);
+    } else if (rec709_encode_enabled) {
+        return float4(encode_rec709(color.rgb), 1);
+    } else {
+        float3 g = 1.0 / float3(gamma, gamma, gamma);
+        return float4(pow(color.rgb, g), 1);
+    }
 }
 
 float4 encode_output(const float4 color, const float gamma)
 {
-    static const float3 g = 1.0 / float3(gamma, gamma, gamma);
-    return float4(pow(color.rgb, g), color.a);
+    if (abs(gamma - 1.0) < 0.0001) {
+        return float4(pow(color.rgb, float3(1.0, 1.0, 1.0)), color.a);
+    } else if (srgb_encode_enabled) {
+        return float4(encode_srgb(color.rgb), color.a);
+    } else if (rec709_encode_enabled) {
+        return float4(encode_rec709(color.rgb), color.a);
+    } else {
+        float3 g = 1.0 / float3(gamma, gamma, gamma);
+        return float4(pow(color.rgb, g), color.a);
+    }
+}
+
+float3 decode_srgb(const float3 input) {
+    float3 low = input / 12.92;
+    float3 high = pow((input + 0.055) / 1.055, float3(2.4, 2.4, 2.4));
+    return lerp(low, high, step(float3(0.04045, 0.04045, 0.04045), input));
+}
+
+float3 decode_rec709(const float3 input) {
+    float3 low = input / 4.5;
+    float3 high = pow((input + 0.099) / 1.099, float3(1.0/0.45, 1.0/0.45, 1.0/0.45));
+    return lerp(low, high, step(float3(0.081, 0.081, 0.081), input));
+}
+
+float4 decode_input_opaque(const float4 color, const float gamma)
+{
+    if (abs(gamma - 1.0) < 0.0001) {
+        return float4(pow(color.rgb, float3(1.0, 1.0, 1.0)), 1);
+    } else if (srgb_decode_enabled) {
+        return float4(decode_srgb(color.rgb), 1);
+    } else if (rec709_decode_enabled) {
+        return float4(decode_rec709(color.rgb), 1);
+    } else {
+        float3 g = float3(gamma, gamma, gamma);
+        return float4(pow(color.rgb, g), 1);
+    }
 }
 
 float4 decode_input(const float4 color, const float gamma)
 {
-    static const float3 g = float3(gamma, gamma, gamma);
-    return float4(pow(color.rgb, g), color.a);
+    if (abs(gamma - 1.0) < 0.0001) {
+        return float4(pow(color.rgb, float3(1.0, 1.0, 1.0)), color.a);
+    } else if (srgb_decode_enabled) {
+        return float4(decode_srgb(color.rgb), color.a);
+    } else if (rec709_decode_enabled) {
+        return float4(decode_rec709(color.rgb), color.a);
+    } else {
+        float3 g = float3(gamma, gamma, gamma);
+        return float4(pow(color.rgb, g), color.a);
+    }
 }
+
 
 ///////////////////////////  TEXTURE LOOKUP WRAPPERS  //////////////////////////
 

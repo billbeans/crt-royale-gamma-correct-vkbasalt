@@ -568,6 +568,35 @@ uniform float crt_gamma <
     ui_category_closed = true;
 > = crt_gamma_static;
 
+
+uniform bool srgb_decode_enabled <
+    ui_label = "sRGB Decoding";
+    ui_tooltip = "Toggle sRGB decoding";
+    ui_type = "checkbox";
+    ui_category = "Colors and Effects";
+> = false;
+
+uniform bool srgb_encode_enabled <
+    ui_label = "sRGB Encoding";
+    ui_tooltip = "Toggle sRGB encoding";
+    ui_type = "checkbox";
+    ui_category = "Colors and Effects";
+> = false;
+
+uniform bool rec709_decode_enabled <
+    ui_label = "Rec.709 Decoding";
+    ui_tooltip = "Toggle Rec.709 decoding";
+    ui_type = "checkbox";
+    ui_category = "Colors and Effects";
+> = false;
+
+uniform bool rec709_encode_enabled <
+    ui_label = "Rec.709 Encoding";
+    ui_tooltip = "Toggle Rec.709 encoding";
+    ui_type = "checkbox";
+    ui_category = "Colors and Effects";
+> = false;
+
 uniform float lcd_gamma <
         ui_label   = "LCD Gamma";
         ui_tooltip = "The gamma-level of your display";
