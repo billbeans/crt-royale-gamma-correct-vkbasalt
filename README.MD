@@ -1,5 +1,11 @@
-This is a port of the crt-royale shader by TroggleMonkey from RetroArch/libretro to ReShade 4.9+.
+This is a fork of akgunter's port, with gamma-correction options added.
 
+### USING THE ENCODING AND DECODING OPTIONS
+Using one of the two provided encoding options will generally always reduce the amount of crush. 
+
+Old games that do not use an encoding standard are usually closer to Rec.709 or pure power-law, so either decode Rec.709 or do not enable either decoding standard.
+
+If you have selected a decoding standard then you should usually also encode to that standard, otherwise use whichever standard is closer to your physical monitor characteristics and settings.
 
 #### CREDIT
 The vast majority of the code here is taken from the current libretro shader repositories, so the most of the credit goes to those authors.
@@ -23,5 +29,6 @@ This shader should work with DX9, DX10/11/12, OpenGL, and Vulkan. It'll probably
 
 #### SETUP
 The shader's UI includes tips and descriptions for setting it up well. Prioritize the Phosphor Mask and Scanlines sections.
+
 
 You can go to [the wiki](https://github.com/akgunter/crt-royale-reshade/wiki) for more detailed info on the different options.
