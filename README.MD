@@ -5,6 +5,8 @@ Using one of the two provided encoding options will generally always reduce the 
 
 Old games that do not use an encoding standard are usually closer to Rec.709 or pure power-law, so either decode Rec.709 or do not enable either decoding standard.
 
+From mid-2000s onward, most games are sRGB encoded.
+
 If you have selected a decoding standard then you should usually also encode to that standard, otherwise use whichever standard is closer to your physical monitor characteristics and settings.
 
 #### CREDIT
@@ -32,3 +34,4 @@ The shader's UI includes tips and descriptions for setting it up well. Prioritiz
 
 
 You can go to [the wiki](https://github.com/akgunter/crt-royale-reshade/wiki) for more detailed info on the different options.
+
