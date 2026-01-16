@@ -185,7 +185,7 @@ float4 encode_output_opaque(const float4 color, const float gamma)
         return float4(pow(color.rgb, gg), 1);
     }
 }
-
+  
 float4 encode_output(const float4 color, const float gamma)
 {
     float g = linear_encode_enabled ? 1.0 : gamma;
@@ -194,25 +194,25 @@ float4 encode_output(const float4 color, const float gamma)
     } else if (srgb_encode_enabled) {
         return float4(encode_srgb(color.rgb), color.a);
     } else if (rec709_encode_enabled) {
-        return float4(encode_rec709(color.rgb), color.a);
+	return float4(encode_rec709(color.rgb), color.a);
     } else {
-        float3 gg = 1.0 / float3(g, g, g);
-        return float4(pow(color.rgb, gg), color.a);
+	float3 gg = 1.0 / float3(g, g, g);
+	return float4(pow(color.rgb, gg), color.a);
     }
-}
-
+}      
+    
 float3 decode_srgb(const float3 input) {
     float3 low = input / 12.92;
     float3 high = pow((input + 0.055) / 1.055, float3(2.4, 2.4, 2.4));
     return lerp(low, high, step(float3(0.04045, 0.04045, 0.04045), input));
-}
+}    
 
 float3 decode_rec709(const float3 input) {
     float3 low = input / 4.5;
     float3 high = pow((input + 0.099) / 1.099, float3(1.0/0.45, 1.0/0.45, 1.0/0.45));
     return lerp(low, high, step(float3(0.081, 0.081, 0.081), input));
-}
-
+}    
+    
 float4 decode_input_opaque(const float4 color, const float gamma)
 {
     float g = linear_decode_enabled ? 1.0 : gamma;
@@ -224,7 +224,7 @@ float4 decode_input_opaque(const float4 color, const float gamma)
         return float4(decode_rec709(color.rgb), 1);
     } else {
         float3 gg = float3(g, g, g);
-        return float4(pow(color.rgb, gg), 1);
+	return float4(pow(color.rgb, gg), 1);
     }
 }
 
@@ -239,11 +239,11 @@ float4 decode_input(const float4 color, const float gamma)
         return float4(decode_rec709(color.rgb), color.a);
     } else {
         float3 gg = float3(g, g, g);
-        return float4(pow(color.rgb, gg), color.a);
+	return float4(pow(color.rgb, gg), color.a);
     }
 }
 
-
+      
 ///////////////////////////  TEXTURE LOOKUP WRAPPERS  //////////////////////////
 
 //  "SMART" LINEARIZING TEXTURE LOOKUP FUNCTIONS:
@@ -261,10 +261,14 @@ float4 decode_input(const float4 color, const float gamma)
 
 //  tex2D:
 float4 tex2D_linearize(const sampler2D tex, const float2 tex_coords, const float gamma)
-{   return decode_input(tex2D(tex, tex_coords), gamma);   }
+{
+    return decode_input(tex2D(tex, tex_coords), gamma);
+}
 
 float4 tex2D_linearize(const sampler2D tex, const float3 tex_coords, const float gamma)
-{   return decode_input(tex2D(tex, tex_coords.xy), gamma);   }
+{
+    return decode_input(tex2D(tex, tex_coords.xy), gamma);
+}
 
 // float4 tex2D_linearize(const sampler2D tex, const float2 tex_coords, const int texel_off, const float gamma)
 // {   return decode_input(tex2Dlod(tex, float4(tex_coords.x, tex_coords.y, 0, 0), texel_off), gamma);    }
@@ -274,10 +278,10 @@ float4 tex2D_linearize(const sampler2D tex, const float3 tex_coords, const float
 
 //  tex2Dlod:
 float4 tex2Dlod_linearize(const sampler2D tex, const float2 tex_coords, const float gamma)
-{   return decode_input(tex2Dlod(tex, float4(tex_coords, 0, 0), 0.0), gamma);    }
+{   return decode_input(tex2Dlodoffset(tex, float4(tex_coords, 0, 0), 0.0), gamma);    }
 
 float4 tex2Dlod_linearize(const sampler2D tex, const float4 tex_coords, const float gamma)
-{   return decode_input(tex2Dlod(tex, float4(tex_coords.xy, 0, 0), 0.0), gamma);    }
+{   return decode_input(tex2Dlodoffset(tex, float4(tex_coords.xy, 0, 0), 0.0), gamma);    }
 
 // float4 tex2Dlod_linearize(const sampler2D tex, const float4 tex_coords, const int texel_off, const float gamma)
 // {   return decode_input(tex2Dlod(tex, float4(tex_coords.x, tex_coords.y, 0, 0), texel_off), gamma);     }
