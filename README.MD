@@ -1,3 +1,7 @@
+A fork of a fork - Support for P0NYSLAYSTATION's CRT Royale Reshade fork with vkBasalt on Linux.
+
+Original Readme:
+
 This is a fork of akgunter's port, with gamma-correction options added.
 
 ### USING THE ENCODING AND DECODING OPTIONS
@@ -36,6 +40,7 @@ The shader's UI includes tips and descriptions for setting it up well. Prioritiz
 
 
 You can go to [the wiki](https://github.com/akgunter/crt-royale-reshade/wiki) for more detailed info on the different options.
+
 
 
 
