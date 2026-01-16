@@ -58,7 +58,7 @@
 
 // The width of the game's content
 #ifndef CONTENT_WIDTH
-	#define CONTENT_WIDTH BUFFER_WIDTH
+        #define CONTENT_WIDTH CONTENT_HEIGHT * 4.0 / 3.0
 #endif
 // The height of the game's content
 #ifndef CONTENT_HEIGHT
@@ -145,11 +145,11 @@ static const float gba_gamma = 3.5; //  Irrelevant but necessary to define.
 
 // === HELP AND INFO ===
 
-uniform int APPEND_VERSION_SUFFIX(version) <
-	ui_text = "Version: " DOT_VERSION_STR;
-	ui_label = " ";
-	ui_type = "radio";
->;
+// uniform int APPEND_VERSION_SUFFIX(version) <
+// 	ui_text = "Version: " DOT_VERSION_STR;
+// 	ui_label = " ";
+// 	ui_type = "radio";
+// > = 0;
 
 uniform int basic_setup_help <
 	ui_text = "1. Configure the Content Box if your game has letter-boxing.\n"
@@ -164,7 +164,7 @@ uniform int basic_setup_help <
 	ui_label = " ";
 	ui_type = "radio";
     hidden = HIDE_HELP_SECTIONS;
->;
+> = 0;
 
 uniform int content_box_help <
 	ui_text = "1. Expand the Preprocessor Definitions section.\n"
@@ -191,7 +191,7 @@ uniform int content_box_help <
 	ui_label = " ";
 	ui_type = "radio";
     hidden = HIDE_HELP_SECTIONS;
->;
+> = 0;
 
 
 // ==== PHOSPHOR MASK ====
@@ -568,50 +568,46 @@ uniform float crt_gamma <
     ui_category_closed = true;
 > = crt_gamma_static;
 
-
-
 uniform bool srgb_decode_enabled <
-    ui_label = "sRGB Decoding";
-    ui_tooltip = "Toggle sRGB decoding";
-    ui_type = "checkbox";
-    ui_category = "Colors and Effects";
+        ui_label = "sRGB Decoding";
+        ui_tooltip = "Toggle sRGB decoding";
+        ui_type = "checkbox";
+        ui_category = "Colors and Effects";
 > = false;
 
 uniform bool srgb_encode_enabled <
-    ui_label = "sRGB Encoding";
-    ui_tooltip = "Toggle sRGB encoding";
-    ui_type = "checkbox";
-    ui_category = "Colors and Effects";
+        ui_label = "sRGB Encoding";
+        ui_tooltip = "Toggle sRGB encoding";
+        ui_type = "checkbox";
+        ui_category = "Colors and Effects";
 > = false;
 
-
 uniform bool rec709_decode_enabled <
-    ui_label = "Rec.709 Decoding";
-    ui_tooltip = "Toggle Rec.709 decoding";
-    ui_type = "checkbox";
-    ui_category = "Colors and Effects";
+        ui_label = "Rec.709 Decoding";
+        ui_tooltip = "Toggle Rec.709 decoding";
+        ui_type = "checkbox";
+        ui_category = "Colors and Effects";
 > = false;
 
 uniform bool rec709_encode_enabled <
-    ui_label = "Rec.709 Encoding";
-    ui_tooltip = "Toggle Rec.709 encoding";
-    ui_type = "checkbox";
-    ui_category = "Colors and Effects";
+        ui_label = "Rec.709 Encoding";
+        ui_tooltip = "Toggle Rec.709 encoding";
+        ui_type = "checkbox";
+        ui_category = "Colors and Effects";
 > = false;
 
-
 uniform bool linear_decode_enabled <
-    ui_label = "Linear Decoding";
-    ui_tooltip = "Force gamma 1.0 for decode";
-    ui_type = "checkbox";
-    ui_category = "Colors and Effects";
+        ui_label = "Linear Decoding";
+        ui_tooltip = "Force gamma 1.0 for decode";
+        ui_type = "checkbox";
+        ui_category = "Colors and Effects";
 > = false;
 
 uniform bool linear_encode_enabled <
-    ui_label = "Linear Encoding";
-    ui_tooltip = "Force gamma 1.0 for encode";
-    ui_type = "checkbox";
-    ui_category = "Colors and Effects";
+        ui_label = "Linear Encoding";
+        ui_tooltip = "Force gamma 1.0 for encode";
+        ui_type = "checkbox";
+        ui_category = "Colors and Effects";
 > = false;
 
 uniform float lcd_gamma <
